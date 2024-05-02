@@ -38,15 +38,18 @@ class WidgetStack extends StatelessWidget {
       );
 
       return Stack(
+        fit: StackFit.loose,
         children: positions.calculate().map((position) {
           return Positioned(
             left: position.x,
             top: position.y,
-            child: SizedBox(
-              height: position.size,
-              width: position.size,
-              child: _buildStackedWidgetOrInfoWidget(position: position),
-            ),
+            child: (position is InfoItemPosition)
+                ? buildInfoWidget(position.amountAdditionalItems)
+                : SizedBox(
+                    height: position.size,
+                    width: position.size,
+                    child: stackedWidgets[position.number],
+                  ),
           );
         }).toList(),
       );
